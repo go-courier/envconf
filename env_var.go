@@ -3,6 +3,7 @@ package envconf
 import (
 	"bytes"
 	"encoding"
+	"go/ast"
 	"reflect"
 	"sort"
 	"strconv"
@@ -222,6 +223,11 @@ func (d *DotEnvDecoder) scanAndSetValue(walker *PathWalker, rv reflect.Value) er
 
 				flags := (map[string]bool)(nil)
 				name := field.Name
+
+				if !ast.IsExported(name) {
+					continue
+				}
+
 				if tag, ok := field.Tag.Lookup("env"); ok {
 					n, fs := tagValueAndFlags(tag)
 					if n == "-" {
@@ -346,6 +352,11 @@ func (d *DotEnvEncoder) scan(walker *PathWalker, rv reflect.Value) error {
 
 				flags := (map[string]bool)(nil)
 				name := field.Name
+
+				if !ast.IsExported(name) {
+					continue
+				}
+
 				if tag, ok := field.Tag.Lookup("env"); ok {
 					n, fs := tagValueAndFlags(tag)
 					if n == "-" {

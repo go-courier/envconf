@@ -1,12 +1,12 @@
 package envconf
 
 import (
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/go-courier/ptr"
 	"github.com/stretchr/testify/require"
-	"strings"
 )
 
 func TestEnvVar(t *testing.T) {
@@ -17,6 +17,7 @@ func TestEnvVar(t *testing.T) {
 		Bool     bool
 		Map      map[string]string
 		Func     func() error
+		ignore   bool
 	}
 
 	type Config struct {
