@@ -9,17 +9,22 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestEnvVar(t *testing.T) {
-	type SubConfig struct {
-		Duration Duration
-		Password Password `env:""`
-		Key      string   `env:""`
-		Bool     bool
-		Map      map[string]string
-		Func     func() error
-		ignore   bool
-	}
+type SubConfig struct {
+	Duration     Duration
+	Password     Password `env:""`
+	Key          string   `env:""`
+	Bool         bool
+	Map          map[string]string
+	Func         func() error
+	ignore       bool
+	defaultValue bool
+}
 
+func (c *SubConfig) SetDefaults() {
+	c.defaultValue = true
+}
+
+func TestEnvVar(t *testing.T) {
 	type Config struct {
 		Map       map[string]string
 		Slice     []string
@@ -37,6 +42,8 @@ func TestEnvVar(t *testing.T) {
 	c.PtrString = ptr.String("123456")
 	c.Slice = []string{"1", "2"}
 	c.Config.Key = "key"
+	c.defaultValue = true
+	c.Config.defaultValue = true
 
 	envVars := NewEnvVars("S")
 

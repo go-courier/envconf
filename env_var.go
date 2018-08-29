@@ -180,6 +180,12 @@ func (d *DotEnvDecoder) Decode(v interface{}) error {
 func (d *DotEnvDecoder) scanAndSetValue(walker *PathWalker, rv reflect.Value) error {
 	kind := rv.Kind()
 
+	if kind != reflect.Ptr && rv.CanAddr() {
+		if defaultsSetter, ok := rv.Addr().Interface().(interface{ SetDefaults() }); ok {
+			defaultsSetter.SetDefaults()
+		}
+	}
+
 	switch kind {
 	case reflect.Ptr:
 		if rv.IsNil() {
