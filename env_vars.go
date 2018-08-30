@@ -17,7 +17,9 @@ func EnvVarsFromEnviron(prefix string, envs []string) *EnvVars {
 	for _, kv := range envs {
 		keyValuePair := strings.Split(kv, "=")
 		if len(keyValuePair) == 2 {
-			e.Set(EnvVarFromKeyValue(keyValuePair[0], keyValuePair[1]))
+			if strings.HasPrefix(keyValuePair[0], prefix) {
+				e.Set(EnvVarFromKeyValue(keyValuePair[0], keyValuePair[1]))
+			}
 		}
 	}
 	return e
