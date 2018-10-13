@@ -51,7 +51,7 @@ func TestEnvVars(t *testing.T) {
 	t.Run("Decoding", func(t *testing.T) {
 		data, _ := NewDotEnvEncoder(envVars).Encode(&c)
 
-		require.Equal(t, `
+		require.NotEqual(t, `
 SU__Host=
 S__Config_Key=key
 S__Config_Password=
@@ -64,6 +64,21 @@ S___Config_Duration=0s
 S___Duration=10s
 S___Slice_0=1
 S___Slice_1=2
+`, "\n"+string(data))
+
+		require.Equal(t, `
+SU__HOST=
+S__CONFIG_KEY=key
+S__CONFIG_PASSWORD=
+S__KEY=123456
+S__PASSWORD=123123
+S__PTRSTRING=123456
+S___BOOL=false
+S___CONFIG_BOOL=false
+S___CONFIG_DURATION=0s
+S___DURATION=10s
+S___SLICE_0=1
+S___SLICE_1=2
 `, "\n"+string(data))
 
 		envVars := EnvVarsFromEnviron("S", strings.Split(string(data), "\n"))
@@ -80,7 +95,7 @@ S___Slice_1=2
 	t.Run("Encoding", func(t *testing.T) {
 		data, _ := NewDotEnvEncoder(envVars).SecurityEncode(&c)
 
-		require.Equal(t, `
+		require.NotEqual(t, `
 SU__Host=
 S__Config_Key=key
 S__Config_Password=
@@ -95,4 +110,23 @@ S___Slice_0=1
 S___Slice_1=2
 `, "\n"+string(data))
 	})
+	t.Run("Encoding", func(t *testing.T) {
+		data, _ := NewDotEnvEncoder(envVars).SecurityEncode(&c)
+
+		require.Equal(t, `
+SU__HOST=
+S__CONFIG_KEY=key
+S__CONFIG_PASSWORD=
+S__KEY=123456
+S__PASSWORD=******
+S__PTRSTRING=123456
+S___BOOL=false
+S___CONFIG_BOOL=false
+S___CONFIG_DURATION=0s
+S___DURATION=10s
+S___SLICE_0=1
+S___SLICE_1=2
+`, "\n"+string(data))
+	})
+
 }
