@@ -3,6 +3,7 @@ package envconf
 import (
 	"bytes"
 	"fmt"
+	"strings"
 )
 
 func NewPathWalker() *PathWalker {
@@ -44,5 +45,5 @@ func (pw *PathWalker) String() string {
 			buf.WriteString(fmt.Sprintf("%d", v))
 		}
 	}
-	return buf.String()
+	return strings.ToUpper(buf.String())
 }
