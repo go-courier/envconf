@@ -145,7 +145,7 @@ func (d *DotEnvDecoder) scanAndSetValue(walker *PathWalker, rv reflect.Value) er
 		case reflect.Array, reflect.Slice:
 			n := d.envVars.Len(walker.String())
 
-			if kind == reflect.Slice {
+			if kind == reflect.Slice && rv.IsNil() {
 				rv.Set(reflect.MakeSlice(rv.Type(), n, n))
 			}
 
