@@ -268,6 +268,16 @@ func (d *DotEnvEncoder) scan(walker *PathWalker, rv reflect.Value) error {
 				if flags["upstream"] {
 					envVar.IsUpstream = true
 				}
+			} else {
+				if len(walker.path) > 1 {
+					k := StringifyPath(walker.path[0 : len(walker.path)-1]...)
+					if flags, ok := d.flagsSet[k]; ok {
+						envVar.ShouldConf = true
+						if flags["upstream"] {
+							envVar.IsUpstream = true
+						}
+					}
+				}
 			}
 		}
 

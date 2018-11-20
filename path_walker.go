@@ -29,11 +29,13 @@ func (pw *PathWalker) Paths() []interface{} {
 }
 
 func (pw *PathWalker) String() string {
+	return StringifyPath(pw.path...)
+}
+
+func StringifyPath(paths ...interface{}) string {
 	buf := bytes.NewBuffer(nil)
 
-	path := pw.path
-
-	for i, key := range path {
+	for i, key := range paths {
 		if i > 0 {
 			buf.WriteRune('_')
 		}
