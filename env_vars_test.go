@@ -1,7 +1,6 @@
 package envconf
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 	"time"
@@ -43,56 +42,54 @@ func TestEnvVars(t *testing.T) {
 	c.PtrString = ptr.String("123456")
 	c.Slice = []string{"1", "2"}
 	c.Config.Key = "key"
-	c.defaultValue = true
 	c.Config.defaultValue = true
+	c.defaultValue = true
 
 	envVars := NewEnvVars("S")
 
-	t.Run("Decoding", func(t *testing.T) {
+	t.Run("Encoding", func(t *testing.T) {
 		data, _ := NewDotEnvEncoder(envVars).Encode(&c)
 
 		require.Equal(t, `
-SU__Host=
+S__Bool=false
+S__Config_Bool=false
+S__Config_Duration=0s
 S__Config_Key=key
 S__Config_Password=
+S__Duration=10s
+S__Host=
 S__Key=123456
 S__Password=123123
 S__PtrString=123456
 S__Slice_0=1
 S__Slice_1=2
-S___Bool=false
-S___Config_Bool=false
-S___Config_Duration=0s
-S___Duration=10s
+`, "\n"+string(data))
+	})
+
+	t.Run("Decoding", func(t *testing.T) {
+		data, _ := NewDotEnvEncoder(envVars).Encode(&c)
+
+		require.Equal(t, `
+S__Bool=false
+S__Config_Bool=false
+S__Config_Duration=0s
+S__Config_Key=key
+S__Config_Password=
+S__Duration=10s
+S__Host=
+S__Key=123456
+S__Password=123123
+S__PtrString=123456
+S__Slice_0=1
+S__Slice_1=2
 `, "\n"+string(data))
 
 		envVars := EnvVarsFromEnviron("S", strings.Split(string(data), "\n"))
-
-		fmt.Println(envVars)
 
 		c2 := Config{}
 		err := NewDotEnvDecoder(envVars).Decode(&c2)
 		require.NoError(t, err)
 
 		require.Equal(t, c, c2)
-	})
-
-	t.Run("Encoding", func(t *testing.T) {
-		data, _ := NewDotEnvEncoder(envVars).SecurityEncode(&c)
-
-		require.Equal(t, `
-SU__Host=
-S__Config_Key=key
-S__Config_Password=
-S__Key=123456
-S__Password=******
-S__PtrString=123456
-S__Slice_0=1
-S__Slice_1=2
-S___Bool=false
-S___Config_Bool=false
-S___Config_Duration=0s
-S___Duration=10s
-`, "\n"+string(data))
 	})
 }
