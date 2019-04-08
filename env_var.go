@@ -10,10 +10,11 @@ type EnvVar struct {
 	Value   string
 	Mask    string
 
-	Optional   bool
-	IsUpstream bool
-	IsCopy     bool
-	IsExpose   bool
+	Optional      bool
+	IsUpstream    bool
+	IsCopy        bool
+	IsExpose      bool
+	IsHealthCheck bool
 }
 
 func (envVar *EnvVar) metaFromFlags(flags map[string]bool) {
@@ -30,6 +31,9 @@ func (envVar *EnvVar) metaFromFlags(flags map[string]bool) {
 	}
 	if flags["expose"] {
 		envVar.IsExpose = true
+	}
+	if flags["healthCheck"] {
+		envVar.IsHealthCheck = true
 	}
 }
 
