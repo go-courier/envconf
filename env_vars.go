@@ -7,12 +7,14 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 func EnvVarsFromEnviron(prefix string, envs []string) *EnvVars {
 	e := NewEnvVars(prefix)
 	for _, kv := range envs {
-		keyValuePair := strings.Split(kv, "=")
+		keyValuePair := strings.SplitN(kv, "=", 2)
 		if len(keyValuePair) == 2 {
 			if strings.HasPrefix(keyValuePair[0], prefix) {
 				e.Set(&EnvVar{

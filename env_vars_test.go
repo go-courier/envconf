@@ -39,7 +39,7 @@ func TestEnvVars(t *testing.T) {
 	c.Duration = Duration(10 * time.Second)
 	c.Password = Password("123123")
 	c.Key = "123456"
-	c.PtrString = ptr.String("123456")
+	c.PtrString = ptr.String("123456=")
 	c.Slice = []string{"1", "2"}
 	c.Config.Key = "key"
 	c.Config.defaultValue = true
@@ -60,7 +60,7 @@ S__Duration=10s
 S__Host=
 S__Key=123456
 S__Password=123123
-S__PtrString=123456
+S__PtrString=123456=
 S__Slice_0=1
 S__Slice_1=2
 `, "\n"+string(data))
@@ -79,7 +79,7 @@ S__Duration=10s
 S__Host=
 S__Key=123456
 S__Password=123123
-S__PtrString=123456
+S__PtrString=123456=
 S__Slice_0=1
 S__Slice_1=2
 `, "\n"+string(data))
