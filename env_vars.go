@@ -7,8 +7,6 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 func EnvVarsFromEnviron(prefix string, envs []string) *EnvVars {
