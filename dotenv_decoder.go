@@ -1,9 +1,10 @@
 package envconf
 
 import (
-	"github.com/go-courier/reflectx"
 	"go/ast"
 	"reflect"
+
+	"github.com/go-courier/reflectx"
 )
 
 func NewDotEnvDecoder(envVars *EnvVars) *DotEnvDecoder {

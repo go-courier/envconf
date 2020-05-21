@@ -26,12 +26,15 @@ func (envVar *EnvVar) metaFromFlags(flags map[string]bool) {
 	if flags["upstream"] {
 		envVar.IsUpstream = true
 	}
+
 	if flags["copy"] {
 		envVar.IsCopy = true
 	}
+
 	if flags["expose"] {
 		envVar.IsExpose = true
 	}
+
 	if flags["healthCheck"] {
 		envVar.IsHealthCheck = true
 	}

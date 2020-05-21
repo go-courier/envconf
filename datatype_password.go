@@ -9,7 +9,7 @@ func (p Password) String() string {
 func (p Password) SecurityString() string {
 	var r []rune
 	for range []rune(string(p)) {
-		r = append(r, []rune("*")...)
+		r = append(r, []rune("-")...)
 	}
 	return string(r)
 }

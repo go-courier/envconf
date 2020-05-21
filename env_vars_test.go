@@ -6,7 +6,8 @@ import (
 	"time"
 
 	"github.com/go-courier/ptr"
-	"github.com/stretchr/testify/require"
+	. "github.com/go-courier/snapshotmacther"
+	. "github.com/onsi/gomega"
 )
 
 type SubConfig struct {
@@ -16,7 +17,6 @@ type SubConfig struct {
 	Bool         bool
 	Map          map[string]string
 	Func         func() error
-	ignore       bool
 	defaultValue bool
 }
 
@@ -50,46 +50,18 @@ func TestEnvVars(t *testing.T) {
 	t.Run("Encoding", func(t *testing.T) {
 		data, _ := NewDotEnvEncoder(envVars).Encode(&c)
 
-		require.Equal(t, `
-S__Bool=false
-S__Config_Bool=false
-S__Config_Duration=0s
-S__Config_Key=key
-S__Config_Password=
-S__Duration=10s
-S__Host=
-S__Key=123456
-S__Password=123123
-S__PtrString=123456=
-S__Slice_0=1
-S__Slice_1=2
-`, "\n"+string(data))
+		NewWithT(t).Expect(string(data)).To(MatchSnapshot(".dotenv"))
 	})
 
 	t.Run("Decoding", func(t *testing.T) {
 		data, _ := NewDotEnvEncoder(envVars).Encode(&c)
 
-		require.Equal(t, `
-S__Bool=false
-S__Config_Bool=false
-S__Config_Duration=0s
-S__Config_Key=key
-S__Config_Password=
-S__Duration=10s
-S__Host=
-S__Key=123456
-S__Password=123123
-S__PtrString=123456=
-S__Slice_0=1
-S__Slice_1=2
-`, "\n"+string(data))
-
 		envVars := EnvVarsFromEnviron("S", strings.Split(string(data), "\n"))
 
 		c2 := Config{}
 		err := NewDotEnvDecoder(envVars).Decode(&c2)
-		require.NoError(t, err)
 
-		require.Equal(t, c, c2)
+		NewWithT(t).Expect(err).To(BeNil())
+		NewWithT(t).Expect(c2).To(Equal(c))
 	})
 }

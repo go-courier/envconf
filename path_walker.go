@@ -12,8 +12,7 @@ func NewPathWalker() *PathWalker {
 }
 
 type PathWalker struct {
-	prefix string
-	path   []interface{}
+	path []interface{}
 }
 
 func (pw *PathWalker) Enter(i interface{}) {
@@ -46,5 +45,6 @@ func StringifyPath(paths ...interface{}) string {
 			buf.WriteString(fmt.Sprintf("%d", v))
 		}
 	}
+
 	return buf.String()
 }
