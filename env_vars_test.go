@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-courier/ptr"
 	. "github.com/go-courier/snapshotmacther"
+	"github.com/go-courier/x/ptr"
 	. "github.com/onsi/gomega"
 )
 

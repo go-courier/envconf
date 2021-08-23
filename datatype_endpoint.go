@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/go-courier/reflectx"
+	encodingx "github.com/go-courier/x/encoding"
 )
 
 func ParseEndpoint(text string) (*Endpoint, error) {
@@ -156,7 +156,7 @@ func UnmarshalExtra(extra url.Values, v interface{}) error {
 			value = field.Tag.Get("default")
 		}
 
-		if err := reflectx.UnmarshalText(fieldValue, []byte(value)); err != nil {
+		if err := encodingx.UnmarshalText(fieldValue, []byte(value)); err != nil {
 			return err
 		}
 	}

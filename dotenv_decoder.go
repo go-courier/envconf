@@ -4,7 +4,8 @@ import (
 	"go/ast"
 	"reflect"
 
-	"github.com/go-courier/reflectx"
+	encodingx "github.com/go-courier/x/encoding"
+	reflectx "github.com/go-courier/x/reflect"
 )
 
 func NewDotEnvDecoder(envVars *EnvVars) *DotEnvDecoder {
@@ -48,7 +49,7 @@ func (d *DotEnvDecoder) scanAndSetValue(walker *PathWalker, rv reflect.Value) er
 		if typ.Implements(interfaceTextUnmarshaller) || reflect.PtrTo(typ).Implements(interfaceTextUnmarshaller) {
 			v := d.envVars.Get(walker.String())
 			if v != nil {
-				if err := reflectx.UnmarshalText(rv, []byte(v.Value)); err != nil {
+				if err := encodingx.UnmarshalText(rv, []byte(v.Value)); err != nil {
 					return err
 				}
 			}
@@ -111,7 +112,7 @@ func (d *DotEnvDecoder) scanAndSetValue(walker *PathWalker, rv reflect.Value) er
 		default:
 			v := d.envVars.Get(walker.String())
 			if v != nil {
-				if err := reflectx.UnmarshalText(rv, []byte(v.Value)); err != nil {
+				if err := encodingx.UnmarshalText(rv, []byte(v.Value)); err != nil {
 					return err
 				}
 			}

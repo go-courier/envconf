@@ -1,9 +1,11 @@
 package envconf
 
 import (
-	"github.com/go-courier/reflectx"
 	"go/ast"
 	"reflect"
+
+	encodingx "github.com/go-courier/x/encoding"
+	reflectx "github.com/go-courier/x/reflect"
 )
 
 func NewDotEnvEncoder(envVars *EnvVars) *DotEnvEncoder {
@@ -80,7 +82,7 @@ func (d *DotEnvEncoder) scan(walker *PathWalker, rv reflect.Value) error {
 			envVar.Mask = securityStringer.SecurityString()
 		}
 
-		text, err := reflectx.MarshalText(rv)
+		text, err := encodingx.MarshalText(rv)
 		if err != nil {
 			return err
 		}
