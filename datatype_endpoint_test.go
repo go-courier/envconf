@@ -43,12 +43,12 @@ func TestEndpoint(t *testing.T) {
 			Password: "postgres",
 			Username: "postgres",
 			Port:     5432,
-			Base:     "postgres",
+			Base:     "postgres/xxx",
 			Extra:    url.Values{"sslmode": {"disable"}},
 		}))
 
-		NewWithT(t).Expect(id.String()).To(Equal("postgres://postgres:postgres@127.0.0.1:5432/postgres?sslmode=disable"))
-		NewWithT(t).Expect(id.SecurityString()).To(Equal("postgres://postgres:--------@127.0.0.1:5432/postgres?sslmode=disable"))
+		NewWithT(t).Expect(id.String()).To(Equal("postgres://postgres:postgres@127.0.0.1:5432/postgres/xxx?sslmode=disable"))
+		NewWithT(t).Expect(id.SecurityString()).To(Equal("postgres://postgres:--------@127.0.0.1:5432/postgres/xxx?sslmode=disable"))
 	})
 
 	t.Run("UnmarshalExtra", func(t *testing.T) {
