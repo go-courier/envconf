@@ -28,7 +28,9 @@ func ParseEndpoint(text string) (*Endpoint, error) {
 	}
 
 	if len(u.Path) > 0 {
-		endpoint.Base = strings.Split(u.Path[1:], "/")[0]
+		//endpoint.Base = strings.Split(u.Path[1:], "/")[0]
+		// supports injecting multiple path segments
+		endpoint.Base = u.Path[1:]
 	}
 
 	endpoint.Hostname = u.Hostname()
